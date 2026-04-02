@@ -18,6 +18,4 @@ jobs:
             cd /home/ec2-user/PythonPl/python
             git pull origin master
             pip install -r requirements.txt
-            python3 helloJames.py
-            # Restart your app (e.g., using systemd or pm2)
-           # sudo systemctl restart PythonPl.service
+            fastapi run helloJames.py --port 8000
