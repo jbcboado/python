@@ -21,4 +21,4 @@ jobs:
             pip install -r requirements.txt
             python3 helloJames.py
             # Restart your app (e.g., using systemd or pm2)
-            sudo systemctl restart PythonPl.service
+           # sudo systemctl restart PythonPl.service
