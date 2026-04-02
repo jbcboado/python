@@ -16,7 +16,10 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             pip install "fastapi[standard]"
-            cd /home/ec2-user/PythonPl/python
-            git pull origin master
-            pip install -r requirements.txt
-            fastapi run helloJames.py --port 8000
+             cd /home/ec2-user/PythonPl/python
+             git pull origin master
+             pip install -r requirements.txt
+             sudo fuser -k 8000/tcp
+             fastapi run helloJames.py --port 8000
+             echo "Deployment complete. Shutting down..."
+             poweroff
