@@ -1,20 +1,47 @@
-name: Deploy to EC2
+name: Deploy to EC2 🚀
+
 on:
   push:
-    branches: [ main ]
+    branches:
+      - "main" # This triggers the workflow on push to any branch
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Execute SSH commands
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            cd /home/${{ secrets.EC2_USER }}/PythonPl
-            git pull origin main
-            source venv/bin/activate
-            pip install -r requirements.txt
-            # Optional: restart your script or service
+      - name: Checkout current branch ✅
+        uses: actions/checkout@v2
+
+      - name: Set up SSH key and whitelist EC2 IP address 🐻‍❄️
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Create .env file dynamically 🧨
+        env:
+          ENV: ${{ secrets.ENV }}
+          EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          echo "ENV=${ENV}" >> env
+          echo "EC2_USERNAME=${EC2_USERNAME}" >> env
+
+      - name: Copy files to remote server 🚙
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
+        run: |
+          scp -r * $EC2_USERNAME@$EC2_HOST:/home/ubuntu/
+
+      - name: Run Bash Script To Delpoy App 🚀
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
+        run: |
+          ssh -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_HOST "chmod +x ./deploy.sh && ./deploy.sh"
+
+      - name: Clean up SSH key 🚀
+        if: always()
+        run: rm -f ~/.ssh/id_rsa
