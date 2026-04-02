@@ -15,7 +15,10 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /home/ec2-user/PythonPl || git clone https://github.com/jbcboado/python /home/ec2-user/PythonPl
+            sudo yum install python3-pip -y
+            cd /home/ec2-user/PythonPl
+            git init
+            git clone https://github.com/jbcboado/python /home/ec2-user/PythonPl
             cd /home/ec2-user/PythonPl
             git pull origin master
             pip install -r requirements.txt
