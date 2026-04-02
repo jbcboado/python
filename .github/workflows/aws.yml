@@ -8,15 +8,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: SSH and Deploy
-        uses: appleboy/ssh-action@master
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
+          username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          script: | 
-            cd ~/PythonPl
-            git pull origin main
-            source venv/bin/activate
+          script: |
+            cd /home/ec2-user/PythonPl || git clone https://github.com /home/ec2-user/PythonPl
+            cd /home/ec2-user/PythonPl
+            git pull origin master
+            source venv/bin/activate || python3 -m venv venv && source venv/bin/activate
             pip install -r requirements.txt
             python3 helloJames.py
+            # Restart your app (e.g., using systemd or pm2)
+            sudo systemctl restart PythonPl.service
