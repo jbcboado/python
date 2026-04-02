@@ -15,8 +15,8 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: | 
-            cd ~/repository-folder
+            cd ~/PythonPl
             git pull origin main
             source venv/bin/activate
             pip install -r requirements.txt
-            sudo systemctl restart my-python-app  # Assuming it's a systemd service
+            python3 helloJames.py
