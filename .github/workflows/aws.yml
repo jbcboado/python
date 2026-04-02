@@ -17,11 +17,6 @@ jobs:
           script: |
             sudo yum install python3-pip -y
             cd /home/ec2-user/PythonPl
-            git init
-            git config --global init.defaultBranch master
-            git clone https://github.com/jbcboado/python /home/ec2-user/PythonPl
-            cd /home/ec2-user/PythonPl
-            git pull origin master
             pip install -r requirements.txt
             python3 helloJames.py
             # Restart your app (e.g., using systemd or pm2)
