@@ -18,7 +18,7 @@ jobs:
             sudo yum install python3-pip -y
             cd /home/ec2-user/PythonPl
             git clone https://github.com/jbcboado/python
-            cd /home/ec2-user/PythonPl
+            cd /home/ec2-user/PythonPl/python
             pip install -r requirements.txt
             python3 helloJames.py
             # Restart your app (e.g., using systemd or pm2)
