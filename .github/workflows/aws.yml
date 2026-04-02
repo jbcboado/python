@@ -15,9 +15,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            sudo yum install git -y
-            mkdir /home/ec2-user/PythonPl
-            cd /home/ec2-user/PythonPl || git clone https://github.com /home/ec2-user/PythonPl
+            cd /home/ec2-user/PythonPl || git clone https://github.com/jbcboado/python /home/ec2-user/PythonPl
             cd /home/ec2-user/PythonPl
             git pull origin master
             pip install -r requirements.txt
