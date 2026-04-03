@@ -3,7 +3,8 @@ from fastapi.responses import HTMLResponse
 
 app = FastAPI()
 
-@app.get("/hello")
+
+@app.get("/", response_class=HTMLResponse)
 def say_hello():
     with open("index.html") as f:
         return f.read()
