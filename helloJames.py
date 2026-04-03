@@ -1,8 +1,9 @@
 from fastapi import FastAPI
-import streamlit as st
+from fastapi.responses import HTMLResponse
 
 app = FastAPI()
 
 @app.get("/hello")
 def say_hello():
-    return("Hello James badingdong!!!")
+    with open("index.html") as f:
+        return f.read()
